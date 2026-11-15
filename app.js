@@ -457,7 +457,7 @@ function vistaReceta(id, pedidas) {
         ${sinIngredientes ? "" : botonMenu(r, false)}
         ${botonFav(r, false)}
         <button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" data-compartir="receta" data-id="${esc(r.id)}">📤 Compartir</button>
-        <button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" onclick="print()">🖨 Imprimir</button>
+        <button class="btn btn-outline-secondary btn-sm text-nowrap cb-imprimir" type="button" onclick="imprimir()">🖨 Imprimir</button>
       </div>
     </div>
     ${r.st ? `<p class="text-muted cb-subtitulo">${esc(r.st)}</p>` : ""}
@@ -558,6 +558,12 @@ function fuente(r) {
   if (r.alta) t += ` · incluida en el libro el ${fecha(r.alta)}`;
   return t;
 }
+
+/** En el iPhone, la web abierta desde el icono de la pantalla de inicio no puede imprimir:
+    ahí se esconde el botón (para imprimir, abrir el enlace en Safari). */
+const sinImprimir = !!navigator.standalone || window.matchMedia("(display-mode: standalone)").matches && /iP(hone|ad|od)/.test(navigator.userAgent);
+if (sinImprimir) document.documentElement.classList.add("cb-sin-imprimir");
+function imprimir() { try { window.print(); } catch { /* sin impresión */ } }
 
 // ------------------------------------------------------------------ arranque
 fetch("datos/recetas.json", { cache: "no-cache" })

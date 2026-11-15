@@ -254,7 +254,7 @@ function vistaCompra(compartido) {
       ${volver}
       ${menu.length && !compartido ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="compra">📤 Compartir</button>` : ""}
       ${menu.length ? `<button class="btn btn-outline-secondary btn-sm" type="button" id="copiar">📋 Copiar</button>
-      <button class="btn btn-primary btn-sm" type="button" onclick="print()">🖨 Imprimir</button>` : ""}
+      <button class="btn btn-primary btn-sm cb-imprimir" type="button" onclick="imprimir()">🖨 Imprimir</button>` : ""}
     </div></div>
     <h1 class="h4 cb-onlyprint">Lista de la compra</h1>`;
   if (!menu.length) {

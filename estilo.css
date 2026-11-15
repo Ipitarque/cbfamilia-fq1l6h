@@ -69,11 +69,12 @@
 .cb-fav.cb-fav-si { background: #fff4cc; color: #8a6800; }
 .cb-fav:hover { border-color: #d9a400; color: #8a6800; }
 .cb-card-actions .btn { white-space: nowrap; }
-.cb-receta-botones { flex: none; }
+.cb-receta-botones { flex: 0 1 auto; }
+.cb-sin-imprimir .cb-imprimir { display: none !important; }
 @media (max-width: 576px) {
   .cb-menu-item { gap: .6rem; }
   .cb-menu-nombre { flex-basis: calc(100% - 5.5rem); }
-  .cb-receta-botones { justify-content: flex-start !important; }
+  .cb-receta-botones { justify-content: flex-start !important; width: 100%; margin-bottom: .5rem; }
 }
 @media (prefers-color-scheme: dark) {
   .cb-fav { color: #f0c94a; border-color: #b8901d; }
