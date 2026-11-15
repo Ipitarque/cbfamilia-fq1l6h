@@ -77,6 +77,7 @@ function vistaMenu() {
   const cab = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <h1 class="h3 mb-0">🗓 Menú de la semana</h1>
     <a class="btn btn-outline-primary btn-sm" href="#/proponer">✨ Proponer un menú</a>
+    ${menu.length ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="menu">📤 Compartir el menú</button>` : ""}
     ${menu.length ? `<span id="vaciar"><button class="btn btn-outline-secondary btn-sm" type="button" data-accion="pregunta">Vaciar el menú</button></span>` : ""}
   </div>`;
   if (!menu.length) {
@@ -241,13 +242,17 @@ function textoCompra(secs, hecho) {
   return t.trim();
 }
 
-function vistaCompra() {
+/** Lista de la compra del menú propio o, si se pasa «compartido», de un menú que ha llegado por enlace (sin tocar el propio). */
+function vistaCompra(compartido) {
   document.title = "Lista de la compra · El CookBook de la familia";
-  const menu = recetasDelMenu().map(r => ({ r, personas: G.menu[r.id] }));
+  const menu = compartido ? compartido.menu : recetasDelMenu().map(r => ({ r, personas: G.menu[r.id] }));
+  const volver = compartido ? `<a class="btn btn-outline-secondary btn-sm" href="${compartido.volver}">← Volver al menú compartido</a>`
+    : `<a class="btn btn-outline-secondary btn-sm" href="#/menu">← Volver al menú</a>`;
   const cab = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 cb-noprint">
-    <h1 class="h3 mb-0">🛒 Lista de la compra</h1>
-    <div class="d-flex gap-2">
-      <a class="btn btn-outline-secondary btn-sm" href="#/menu">← Volver al menú</a>
+    <h1 class="h3 mb-0">🛒 Lista de la compra${compartido ? " compartida" : ""}</h1>
+    <div class="d-flex flex-wrap gap-2">
+      ${volver}
+      ${menu.length && !compartido ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="compra">📤 Compartir</button>` : ""}
       ${menu.length ? `<button class="btn btn-outline-secondary btn-sm" type="button" id="copiar">📋 Copiar</button>
       <button class="btn btn-primary btn-sm" type="button" onclick="print()">🖨 Imprimir</button>` : ""}
     </div></div>
@@ -259,10 +264,10 @@ function vistaCompra() {
     return;
   }
   const secs = listaCompra(menu);
-  // Lo tachado se recuerda mientras el menú no cambie
+  // Lo tachado se recuerda mientras el menú no cambie (en una lista compartida, solo mientras está abierta)
   const firma = JSON.stringify(Object.entries(G.menu).sort());
-  if (G.hecho.firma !== firma) { G.hecho = { firma, claves: [] }; guarda(); }
-  const hecho = new Set(G.hecho.claves);
+  if (!compartido && G.hecho.firma !== firma) { G.hecho = { firma, claves: [] }; guarda(); }
+  const hecho = new Set(compartido ? [] : G.hecho.claves);
   const item = i => `<li class="cb-compra-item ${hecho.has(claveItem(i)) ? "hecho" : ""}" data-k="${esc(claveItem(i))}" title="${esc(i.recetas.join(", "))}">
     <span class="cb-check">${hecho.has(claveItem(i)) ? "☑" : "☐"}</span>
     <span class="cb-compra-nombre">${esc(i.nombre)}</span>
@@ -284,7 +289,7 @@ function vistaCompra() {
     if (!li) return;
     const k = li.dataset.k;
     if (hecho.has(k)) hecho.delete(k); else hecho.add(k);
-    G.hecho.claves = [...hecho]; guarda();
+    if (!compartido) { G.hecho.claves = [...hecho]; guarda(); }
     li.classList.toggle("hecho", hecho.has(k));
     li.querySelector(".cb-check").textContent = hecho.has(k) ? "☑" : "☐";
   });
@@ -713,6 +718,7 @@ function vistaProponer() {
       <div class="d-flex flex-wrap gap-3 align-items-center">
         <label class="form-check mb-0"><input type="checkbox" class="form-check-input" id="p-vaciar" ${f.vaciar ? "checked" : ""}> Vaciar antes el menú semanal</label>
         <button class="btn btn-success" type="button" id="p-anadir">🗓 Añadir al menú semanal (${q.comensales} pers.)</button>
+        <button class="btn btn-outline-secondary" type="button" data-compartir="propuesta">📤 Compartir esta propuesta</button>
         <span class="text-success" id="p-ok" ${anadido ? "" : "hidden"}>✓ Añadido. <a href="#/menu">Ver el menú y la lista de la compra</a></span>
       </div>
       <div class="small text-muted mt-1">Cada receta se añade para ${q.comensales} personas. Si un plato sale dos veces, se suma una sola vez con esas personas.

@@ -82,3 +82,8 @@
   .cb-compra-item.hecho .cb-compra-nombre, .cb-compra-item.hecho .cb-compra-cant { color: #8f8478; }
   .alert-warning { background: #4a3a10; color: #ffe08a; border-color: #6b5518; }
 }
+
+/* Compartir (fase 4) */
+.cb-modal-fondo { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
+.cb-modal { background: var(--cb-card); color: var(--cb-ink); border-radius: .9rem; padding: 1.25rem; width: 100%; max-width: 22rem; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.cb-compartido-cab { border-left: 4px solid var(--cb-accent); padding-left: .75rem; }

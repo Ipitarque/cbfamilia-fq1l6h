@@ -148,7 +148,8 @@ function marcarNav(cual) {
 function pinta() {
   const { partes, q } = ruta();
   const principal = document.getElementById("principal");
-  if (partes[0] === "receta" && partes[1]) { marcarNav(""); vistaReceta(partes[1]); }
+  if (partes[0] === "receta" && partes[1]) { marcarNav(""); vistaReceta(partes[1], parseInt(q.get("r"), 10)); }
+  else if (partes[0] === "compartido") { marcarNav(""); vistaCompartido(q); }
   else if (partes[0] === "recetas") { marcarNav(q.get("buscar") ? "buscar" : "recetas"); vistaRecetas(q); }
   else if (partes[0] === "por" && partes[1]) { marcarNav(""); vistaEje(partes[1], partes[2]); }
   else if (partes[0] === "menu") { marcarNav("menu"); vistaMenu(); }
@@ -376,7 +377,10 @@ function refresca() {
 
   const res = resultados();
   const total = D.recetas.length;
-  const cabecera = `<h1 class="h3 mb-3">${res.length} ${res.length === 1 ? "receta" : "recetas"}${res.length !== total ? ` <span class="text-muted fs-6">de ${total}</span>` : ""}</h1>`;
+  const cabecera = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h3 mb-0">${res.length} ${res.length === 1 ? "receta" : "recetas"}${res.length !== total ? ` <span class="text-muted fs-6">de ${total}</span>` : ""}</h1>
+    ${res.length && res.length !== total ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="grupo">📤 Compartir ${res.length === 1 ? "esta receta" : "estas recetas"}</button>` : ""}
+  </div>`;
   let cuerpo;
   if (res.length === 0) cuerpo = `<div class="alert alert-light border">Ninguna receta cumple todos los criterios. Prueba a quitar algún filtro.</div>`;
   else if (!palabras(F.texto).size) cuerpo = rejilla(res);
@@ -421,7 +425,7 @@ function tarjeta(r) {
 }
 
 // ------------------------------------------------------------------ hoja de receta
-function vistaReceta(id) {
+function vistaReceta(id, pedidas) {
   const r = porId.get(id);
   if (!r) {
     document.title = "No encontrada";
@@ -442,6 +446,7 @@ function vistaReceta(id) {
       <div class="d-flex flex-wrap justify-content-end gap-2 no-print cb-receta-botones">
         ${sinIngredientes ? "" : botonMenu(r, false)}
         ${botonFav(r, false)}
+        <button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" data-compartir="receta" data-id="${esc(r.id)}">📤 Compartir</button>
         <button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" onclick="print()">🖨 Imprimir</button>
       </div>
     </div>
@@ -456,7 +461,7 @@ function vistaReceta(id) {
     ${sinIngredientes ? "" : `<section class="cb-servings no-print">
       <span>Para</span>
       <button class="btn btn-outline-secondary" type="button" data-d="-1" aria-label="Menos raciones">−</button>
-      <input id="rac" type="number" min="1" max="100" inputmode="numeric" class="form-control" value="${r.rac.def}">
+      <input id="rac" type="number" min="1" max="100" inputmode="numeric" class="form-control" value="${pedidas >= 1 && pedidas <= 100 ? pedidas : r.rac.def}">
       <button class="btn btn-outline-secondary" type="button" data-d="1" aria-label="Más raciones">+</button>
       <span>${esc(r.rac.u)}</span>
       <button id="volver" class="btn btn-link btn-sm" type="button" hidden>volver a ${r.rac.def}</button>
@@ -498,7 +503,7 @@ function vistaReceta(id) {
     app.querySelectorAll("[data-d]").forEach(bt => bt.addEventListener("click", () => fija(parseInt(caja.value, 10) + parseInt(bt.dataset.d, 10))));
     document.getElementById("volver").addEventListener("click", () => fija(r.rac.def));
   }
-  cantidades(r.rac.def);
+  cantidades(pedidas >= 1 && pedidas <= 100 ? pedidas : r.rac.def);
   pintaBotones(app);
 }
 
