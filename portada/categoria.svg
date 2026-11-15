@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dfe8cf"/><stop offset="1" stop-color="#b9cfa0"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <!-- tabla de cortar -->
+  <rect x="60" y="70" width="480" height="270" rx="30" fill="#c99a62"/>
+  <rect x="72" y="82" width="456" height="246" rx="24" fill="#d9ad74"/>
+  <circle cx="510" cy="105" r="9" fill="#b9874f"/>
+  <g stroke="#c99a62" stroke-width="2" opacity=".6" fill="none">
+    <path d="M90 140 Q300 120 510 150"/><path d="M90 220 Q300 200 510 230"/><path d="M90 290 Q300 270 510 300"/>
+  </g>
+  <!-- pescado -->
+  <g transform="translate(110 120)">
+    <path d="M0 40 Q60 -10 130 40 Q60 90 0 40 Z" fill="#7fa9c9"/>
+    <path d="M125 40 L165 10 L160 40 L165 70 Z" fill="#5e8db1"/>
+    <path d="M40 22 Q50 40 40 58 M65 18 Q76 40 65 62" stroke="#5e8db1" stroke-width="3" fill="none"/>
+    <circle cx="22" cy="34" r="6" fill="#fff"/><circle cx="22" cy="34" r="3" fill="#1f2b38"/>
+  </g>
+  <!-- muslo de pollo -->
+  <g transform="translate(330 105) rotate(20)">
+    <ellipse cx="55" cy="45" rx="55" ry="42" fill="#c9773d"/>
+    <ellipse cx="45" cy="35" rx="30" ry="18" fill="#dd9255" opacity=".7"/>
+    <rect x="95" y="38" width="55" height="14" rx="7" fill="#f4ead9"/>
+    <circle cx="152" cy="38" r="11" fill="#f4ead9"/><circle cx="152" cy="54" r="11" fill="#f4ead9"/>
+  </g>
+  <!-- zanahoria -->
+  <g transform="translate(120 230) rotate(-15)">
+    <path d="M0 30 Q10 0 140 18 Q150 30 140 42 Q10 60 0 30 Z" fill="#ef8a2b"/>
+    <path d="M30 20 l6 10 M60 18 l6 12 M95 20 l5 10" stroke="#d56f15" stroke-width="3"/>
+    <path d="M140 30 q30 -30 45 -20 M140 30 q35 -5 45 10 M140 30 q25 15 30 30" stroke="#4f8a3a" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- tomate -->
+  <g transform="translate(345 255)">
+    <circle cx="35" cy="35" r="35" fill="#e0453a"/>
+    <ellipse cx="22" cy="22" rx="10" ry="6" fill="#f07a6f" opacity=".7"/>
+    <path d="M35 4 l-12 -4 l10 8 l-6 -10 l10 8 l6 -10 l0 12 l12 -6 Z" fill="#4f8a3a"/>
+  </g>
+  <!-- huevos -->
+  <g transform="translate(440 245)">
+    <ellipse cx="25" cy="38" rx="24" ry="31" fill="#fbf3e4"/>
+    <ellipse cx="62" cy="48" rx="22" ry="28" fill="#f1dcc0"/>
+  </g>
+  <!-- hojas de lechuga -->
+  <g transform="translate(250 175)">
+    <ellipse cx="30" cy="30" rx="34" ry="20" fill="#7bb662" transform="rotate(-25 30 30)"/>
+    <ellipse cx="58" cy="34" rx="30" ry="17" fill="#5c9b45" transform="rotate(20 58 34)"/>
+    <path d="M10 42 Q40 25 75 35" stroke="#a9d68f" stroke-width="3" fill="none"/>
+  </g>
+</svg>

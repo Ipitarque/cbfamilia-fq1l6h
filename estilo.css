@@ -1,0 +1,37 @@
+/* El CookBook de la familia: lo propio de la edición familiar.
+   El resto del aspecto viene de cookbook.css, copia de los estilos del CookBook de casa. */
+
+/* Cabecera: en el móvil, marca y enlaces en dos filas ordenadas */
+.cb-header { padding-top: max(.5rem, env(safe-area-inset-top)); }
+.cb-nav-fam .cb-link { white-space: nowrap; }
+@media (max-width: 576px) {
+  .cb-brand { font-size: 1.05rem; }
+  .cb-nav-fam { width: 100%; justify-content: space-between; }
+  .cb-nav-fam .cb-link { padding: .2rem .35rem; font-size: .92rem; }
+}
+
+/* Portada: tres botones del mismo tamaño */
+.cb-home-actions.cb-home-fam { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 480px) { .cb-home-actions.cb-home-fam { grid-template-columns: 1fr; } }
+.cb-pie-fam { text-align: center; font-size: .8rem; opacity: .6; margin: 1.25rem 0 0; }
+
+/* Buscador: «Más filtros» plegable (abierto en el ordenador, cerrado en el móvil) */
+.cb-filtros-fam > summary { cursor: pointer; font-weight: 600; color: var(--cb-accent); list-style: none; display: flex; align-items: center; }
+.cb-filtros-fam > summary::-webkit-details-marker { display: none; }
+.cb-filtros-fam > summary::after { content: "▾"; margin-left: auto; }
+.cb-filtros-fam[open] > summary::after { content: "▴"; }
+
+/* Botones e inputs algo más grandes para el dedo */
+@media (pointer: coarse) {
+  .cb-servings .btn { min-width: 2.75rem; }
+  .cb-facet .form-check { padding-top: .2rem; padding-bottom: .2rem; }
+}
+
+/* La hoja de receta respira un poco menos en el móvil */
+@media (max-width: 576px) {
+  .cb-recipe { padding: 1rem; }
+  .cb-recipe h1 { font-size: 1.6rem; }
+}
+
+/* Al imprimir, sin cabecera ni botones */
+@media print { .cb-header, .cb-atras, .no-print { display: none !important; } }

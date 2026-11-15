@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6d9c4"/><stop offset="1" stop-color="#eebc9b"/>
+    </linearGradient>
+    <radialGradient id="plate" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ece6de"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <!-- mantel -->
+  <rect y="250" width="600" height="150" fill="#c96b42"/>
+  <g fill="#d98457" opacity=".6">
+    <rect x="0" y="250" width="40" height="150"/><rect x="80" y="250" width="40" height="150"/>
+    <rect x="160" y="250" width="40" height="150"/><rect x="240" y="250" width="40" height="150"/>
+    <rect x="320" y="250" width="40" height="150"/><rect x="400" y="250" width="40" height="150"/>
+    <rect x="480" y="250" width="40" height="150"/><rect x="560" y="250" width="40" height="150"/>
+  </g>
+  <!-- ENTRANTE: cuenco de ensalada -->
+  <ellipse cx="115" cy="268" rx="78" ry="16" fill="#000" opacity=".15"/>
+  <path d="M40 215 Q115 300 190 215 Z" fill="#fbf7f1" stroke="#e2d6c8" stroke-width="3"/>
+  <ellipse cx="115" cy="215" rx="75" ry="16" fill="#fbf7f1" stroke="#e2d6c8" stroke-width="3"/>
+  <g>
+    <ellipse cx="85" cy="208" rx="26" ry="13" fill="#6aa84f" transform="rotate(-20 85 208)"/>
+    <ellipse cx="130" cy="203" rx="28" ry="13" fill="#8cc265" transform="rotate(15 130 203)"/>
+    <ellipse cx="110" cy="198" rx="22" ry="11" fill="#4f8a3a"/>
+    <circle cx="97" cy="200" r="9" fill="#e0453a"/><circle cx="143" cy="210" r="8" fill="#e0453a"/>
+    <circle cx="120" cy="212" r="5" fill="#f2d14b"/><circle cx="70" cy="214" r="5" fill="#2f2f2f"/>
+  </g>
+  <!-- PRINCIPAL: plato grande -->
+  <ellipse cx="300" cy="300" rx="120" ry="26" fill="#000" opacity=".15"/>
+  <ellipse cx="300" cy="280" rx="118" ry="44" fill="url(#plate)" stroke="#e2d6c8" stroke-width="3"/>
+  <ellipse cx="300" cy="278" rx="82" ry="28" fill="none" stroke="#e8dfd3" stroke-width="2"/>
+  <path d="M245 278 Q260 245 300 250 Q345 252 352 275 Q330 296 290 294 Q255 292 245 278 Z" fill="#8a4a2b"/>
+  <path d="M262 270 Q300 258 335 268" stroke="#6b3620" stroke-width="4" fill="none"/>
+  <circle cx="345" cy="290" r="10" fill="#f0a23b"/><circle cx="360" cy="280" r="9" fill="#f0a23b"/>
+  <circle cx="250" cy="292" r="8" fill="#5f9e3f"/><circle cx="238" cy="282" r="7" fill="#4f8a3a"/>
+  <path d="M285 247 q5 -14 0 -26 M300 245 q6 -16 0 -30 M315 247 q5 -14 0 -26" stroke="#fff" stroke-width="4" fill="none" opacity=".75" stroke-linecap="round"/>
+  <!-- cubiertos -->
+  <rect x="166" y="255" width="7" height="80" rx="3" fill="#b9b2a8"/>
+  <path d="M160 255 v-30 M169 255 v-30 M178 255 v-30" stroke="#b9b2a8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M427 335 L427 245 Q445 255 440 300 L434 300 L434 335 Z" fill="#b9b2a8"/>
+  <!-- POSTRE: porción de tarta -->
+  <ellipse cx="500" cy="270" rx="70" ry="18" fill="#000" opacity=".15"/>
+  <ellipse cx="500" cy="258" rx="68" ry="22" fill="url(#plate)" stroke="#e2d6c8" stroke-width="3"/>
+  <path d="M455 252 L545 236 L545 196 L455 212 Z" fill="#f6e0b5"/>
+  <path d="M455 230 L545 214" stroke="#d65a7a" stroke-width="7"/>
+  <path d="M455 212 L545 196 L520 182 Z" fill="#fff4e6"/>
+  <path d="M455 212 L520 182 L520 182" fill="none"/>
+  <path d="M545 236 L545 196 L520 182 L520 222 Z" fill="#e9cc96"/>
+  <circle cx="512" cy="180" r="10" fill="#d6304a"/><path d="M512 170 q4 -8 10 -6" stroke="#4f8a3a" stroke-width="3" fill="none"/>
+</svg>

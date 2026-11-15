@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Pañuelico rojo de San Fermín anudado al cuello -->
+  <path d="M8 26 Q50 40 92 26 L84 38 Q50 50 16 38 Z" fill="#c8102e"/>
+  <path d="M16 38 Q50 50 84 38 L50 92 Z" fill="#d7192f"/>
+  <path d="M30 44 Q50 52 70 44 L50 80 Z" fill="#b30d27" opacity=".55"/>
+  <path d="M8 26 Q50 40 92 26" fill="none" stroke="#9e0b22" stroke-width="2"/>
+  <ellipse cx="50" cy="44" rx="9" ry="7" fill="#a50d24"/>
+  <path d="M44 48 Q36 62 30 70 L40 68 Q46 58 48 50 Z" fill="#c8102e"/>
+  <path d="M56 48 Q64 62 70 70 L60 68 Q54 58 52 50 Z" fill="#c8102e"/>
+  <g fill="none" stroke="#ffffff" stroke-width="1.6" opacity=".9">
+    <path d="M22 40 Q50 52 78 40"/><path d="M50 88 L22 42" stroke-dasharray="3 3"/><path d="M50 88 L78 42" stroke-dasharray="3 3"/>
+  </g>
+</svg>
