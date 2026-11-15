@@ -151,6 +151,9 @@ function pinta() {
   if (partes[0] === "receta" && partes[1]) { marcarNav(""); vistaReceta(partes[1]); }
   else if (partes[0] === "recetas") { marcarNav(q.get("buscar") ? "buscar" : "recetas"); vistaRecetas(q); }
   else if (partes[0] === "por" && partes[1]) { marcarNav(""); vistaEje(partes[1], partes[2]); }
+  else if (partes[0] === "menu") { marcarNav("menu"); vistaMenu(); }
+  else if (partes[0] === "compra") { marcarNav("menu"); vistaCompra(); }
+  else if (partes[0] === "proponer") { marcarNav("menu"); vistaProponer(); }
   else { marcarNav("inicio"); vistaPortada(); }
   principal.scrollTop = 0;
   window.scrollTo(0, 0);
@@ -178,7 +181,9 @@ function vistaPortada() {
         </a></div>`).join("")}
     </div>
     <div class="cb-home-actions cb-home-fam mt-4">
-      <a class="btn btn-primary" href="#/recetas">📖 Ver todas las recetas (${n})</a>
+      <a class="btn btn-primary cb-home-todas" href="#/recetas">📖 Ver todas las recetas (${n})</a>
+      <a class="btn cb-btn-fam" href="#/recetas?favoritas=1">★ Favoritas (${D.recetas.filter(r => esFavorita(r.id)).length})</a>
+      <a class="btn cb-btn-fam" href="#/menu">🗓 Menú (${recetasDelMenu().length})</a>
       <a class="btn cb-btn-fam" href="#/recetas?tecnicas=1">🔪 Trucos (${trucos})</a>
       <a class="btn cb-btn-fam" href="#/recetas?buscar=1">🔍 Buscar</a>
     </div>
@@ -237,7 +242,7 @@ function vistaEje(clave, nombreGrupo) {
 // ------------------------------------------------------------------ lista, buscador y filtros
 const F = {};   // filtro actual
 function filtroVacio() {
-  Object.assign(F, { texto: "", con: "", sin: "", max: null, trucos: false,
+  Object.assign(F, { texto: "", con: "", sin: "", max: null, trucos: false, favs: false,
     tp: new Set(), stp: new Set(), ca: new Set(), sca: new Set(), co: new Set(), sco: new Set(),
     dif: new Set(), die: new Set(), tem: new Set(), oca: new Set() });
 }
@@ -262,6 +267,7 @@ function cumple(r, sin) {
   const ok = (k, vals) => k === sin || F[k].size === 0 || vals.some(v => F[k].has(v));
   // Grupo y opción se cumplen en el mismo sitio de la clasificación (subtipo solo se usa desde la portada)
   if (F.trucos && !r.truco) return false;
+  if (F.favs && !esFavorita(r.id)) return false;
   if (!ok("tp", [r.tp]) || (F.stp.size && !F.stp.has(r.stp))) return false;
   if (!ok("ca", [r.ca]) || !ok("sca", [r.sca])) return false;
   if (!ok("co", [r.co]) || !ok("sco", [r.sco])) return false;
@@ -299,8 +305,9 @@ function vistaRecetas(q) {
     dificultad: "dif", dieta: "die", temporada: "tem", ocasion: "oca" };
   for (const [p, k] of Object.entries(desdeUrl)) if (q.get(p)) F[k].add(q.get(p));
   F.trucos = !!q.get("tecnicas");
+  F.favs = !!q.get("favoritas");
   F.texto = q.get("q") || "";
-  const abiertoFiltros = window.matchMedia("(min-width: 992px)").matches;
+  const abiertoFiltros = window.matchMedia("(min-width: 992px)").matches || F.favs || F.trucos;
   app.innerHTML = `<div class="row g-4">
     <aside class="col-lg-3">
       <div class="cb-panel">
@@ -316,6 +323,10 @@ function vistaRecetas(q) {
               <label class="small text-nowrap" for="max">Tiempo máx. (min)</label>
               <input id="max" type="number" min="5" step="5" inputmode="numeric" class="form-control form-control-sm">
             </div>
+            <label class="form-check small mb-1">
+              <input id="favs" class="form-check-input" type="checkbox" ${F.favs ? "checked" : ""}>
+              <span class="form-check-label">Solo favoritas ★</span>
+            </label>
             <label class="form-check small mb-2">
               <input id="tru" class="form-check-input" type="checkbox" ${F.trucos ? "checked" : ""}>
               <span class="form-check-label">Solo trucos 🔪</span>
@@ -334,7 +345,8 @@ function vistaRecetas(q) {
   $("sin").addEventListener("input", e => { F.sin = e.target.value; refresca(); });
   $("max").addEventListener("input", e => { F.max = parseInt(e.target.value, 10) || null; refresca(); });
   $("tru").addEventListener("change", e => { F.trucos = e.target.checked; refresca(); });
-  $("limpiar").addEventListener("click", () => { filtroVacio(); ["txt", "con", "sin", "max"].forEach(id => $(id).value = ""); $("tru").checked = false; refresca(); });
+  $("favs").addEventListener("change", e => { F.favs = e.target.checked; refresca(); });
+  $("limpiar").addEventListener("click", () => { filtroVacio(); ["txt", "con", "sin", "max"].forEach(id => $(id).value = ""); $("tru").checked = false; $("favs").checked = false; refresca(); });
   $("facetas").addEventListener("change", e => {
     const c = e.target.closest("input[data-k]");
     if (!c) return;
@@ -358,7 +370,7 @@ function refresca() {
         <span class="form-check-label">${esc(v)} <span class="text-muted">(${n})</span></span></label>`).join("")}</div>
     </details>`;
   }).join("");
-  const nf = FACETAS.reduce((s, [k]) => s + F[k].size, 0) + F.stp.size + (F.trucos ? 1 : 0) + (F.max ? 1 : 0) +
+  const nf = FACETAS.reduce((s, [k]) => s + F[k].size, 0) + F.stp.size + (F.trucos ? 1 : 0) + (F.favs ? 1 : 0) + (F.max ? 1 : 0) +
     (terminos(F.con).length ? 1 : 0) + (terminos(F.sin).length ? 1 : 0);
   document.getElementById("nfil").textContent = nf ? `(${nf})` : "";
 
@@ -374,6 +386,7 @@ function refresca() {
       (resto.length ? `<h2 class="cb-results-title">“${esc(F.texto)}” en los ingredientes <span>(${resto.length})</span></h2>${rejilla(resto)}` : "");
   }
   document.getElementById("res").innerHTML = cabecera + cuerpo;
+  pintaBotones(document.getElementById("res"));
 }
 
 const rejilla = (lista, extra = "") => `<div class="row row-cols-1 row-cols-md-2 g-3 ${extra}">${lista.map(tarjeta).join("")}</div>`;
@@ -390,7 +403,13 @@ function tarjeta(r) {
   const b = (t, cls = "cb-badge") => t ? `<span class="badge ${cls}">${esc(t)}</span>` : "";
   return `<div class="col"><div class="cb-card position-relative">
     ${r.foto && !r.truco ? `<img class="cb-card-photo" src="fotos/${enc(r.foto)}" alt="${esc(r.t)}" loading="lazy">` : ""}
-    <h2 class="h5 mb-1"><a class="stretched-link cb-card-link" href="#/receta/${enc(r.id)}">${esc(r.t)}</a></h2>
+    <div class="d-flex justify-content-between align-items-start gap-2">
+      <h2 class="h5 mb-1"><a class="stretched-link cb-card-link" href="#/receta/${enc(r.id)}">${esc(r.t)}</a></h2>
+      <div class="d-flex align-items-center gap-1 cb-card-actions">
+        ${esFavorita(r.id) ? `<span class="cb-star" title="Favorita">★</span>` : ""}
+        ${botonMenu(r, true, r.rac.def)}
+      </div>
+    </div>
     ${r.st ? `<p class="text-muted small cb-subtitulo">${esc(r.st)}</p>` : ""}
     <div class="d-flex flex-wrap gap-1">
       ${b(r.tp, "cb-badge-main")}${b(r.co ? (r.sco || r.co) : "")}${b(r.ca)}${b(r.dif)}
@@ -418,9 +437,13 @@ function vistaReceta(id) {
   const por = n && n.por ? n.por : "ración";
 
   app.innerHTML = `<article class="cb-recipe">
-    <div class="d-flex justify-content-between align-items-start gap-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start column-gap-3 row-gap-1">
       <h1 class="mb-1">${esc(r.t)}</h1>
-      <div class="d-flex gap-2 no-print"><button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" onclick="print()">🖨 Imprimir</button></div>
+      <div class="d-flex flex-wrap justify-content-end gap-2 no-print cb-receta-botones">
+        ${sinIngredientes ? "" : botonMenu(r, false)}
+        ${botonFav(r, false)}
+        <button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" onclick="print()">🖨 Imprimir</button>
+      </div>
     </div>
     ${r.st ? `<p class="text-muted cb-subtitulo">${esc(r.st)}</p>` : ""}
     ${r.foto && !r.truco ? `<img class="cb-photo" src="fotos/${enc(r.foto)}" alt="${esc(r.t)}">` : ""}
@@ -476,6 +499,7 @@ function vistaReceta(id) {
     document.getElementById("volver").addEventListener("click", () => fija(r.rac.def));
   }
   cantidades(r.rac.def);
+  pintaBotones(app);
 }
 
 /** «Langostino mediano: 1-2 min…» → «Langostino mediano»; si no empieza por un nombre corto con dos puntos, es una nota. */
@@ -527,6 +551,7 @@ fetch("datos/recetas.json", { cache: "no-cache" })
     D = d;
     porId = new Map(D.recetas.map(r => [r.id, r]));
     window.addEventListener("hashchange", pinta);
+    contadorMenu();
     pinta();
   })
   .catch(() => {

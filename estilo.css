@@ -11,8 +11,9 @@
 }
 
 /* Portada: tres botones del mismo tamaño */
-.cb-home-actions.cb-home-fam { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-@media (max-width: 480px) { .cb-home-actions.cb-home-fam { grid-template-columns: 1fr; } }
+.cb-home-actions.cb-home-fam { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cb-home-fam .cb-home-todas { grid-column: 1 / -1; }
+@media (max-width: 576px) { .cb-home-actions.cb-home-fam { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .cb-pie-fam { text-align: center; font-size: .8rem; opacity: .6; margin: 1.25rem 0 0; }
 
 /* Buscador: «Más filtros» plegable (abierto en el ordenador, cerrado en el móvil) */
@@ -61,4 +62,23 @@
   .form-control::placeholder { color: #a39585; }
   .form-check-input:checked { background-color: var(--cb-accent); border-color: var(--cb-accent); }
   .alert-light { background: var(--cb-card); color: var(--cb-ink); border-color: var(--cb-line) !important; }
+}
+
+/* Favoritas, menú y compra (fase 3) */
+.cb-fav { border: 1px solid #d9a400; color: #a37b00; background: var(--cb-card); white-space: nowrap; }
+.cb-fav.cb-fav-si { background: #fff4cc; color: #8a6800; }
+.cb-fav:hover { border-color: #d9a400; color: #8a6800; }
+.cb-card-actions .btn { white-space: nowrap; }
+.cb-receta-botones { flex: none; }
+@media (max-width: 576px) {
+  .cb-menu-item { gap: .6rem; }
+  .cb-menu-nombre { flex-basis: calc(100% - 5.5rem); }
+  .cb-receta-botones { justify-content: flex-start !important; }
+}
+@media (prefers-color-scheme: dark) {
+  .cb-fav { color: #f0c94a; border-color: #b8901d; }
+  .cb-fav.cb-fav-si { background: #4a3a10; color: #ffd75e; }
+  .cb-plan-titulo, .cb-plan-papel, .cb-compra-rec { color: #bfb2a4; }
+  .cb-compra-item.hecho .cb-compra-nombre, .cb-compra-item.hecho .cb-compra-cant { color: #8f8478; }
+  .alert-warning { background: #4a3a10; color: #ffe08a; border-color: #6b5518; }
 }
