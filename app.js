@@ -308,7 +308,7 @@ function vistaRecetas(q) {
   F.trucos = !!q.get("tecnicas");
   F.favs = !!q.get("favoritas");
   F.texto = q.get("q") || "";
-  const abiertoFiltros = window.matchMedia("(min-width: 992px)").matches || F.favs || F.trucos;
+  const abiertoFiltros = window.matchMedia("(min-width: 992px)").matches;
   app.innerHTML = `<div class="row g-4">
     <aside class="col-lg-3">
       <div class="cb-panel">
@@ -380,7 +380,11 @@ function refresca() {
   const cabecera = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <h1 class="h3 mb-0">${res.length} ${res.length === 1 ? "receta" : "recetas"}${res.length !== total ? ` <span class="text-muted fs-6">de ${total}</span>` : ""}</h1>
     ${res.length && res.length !== total ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="grupo">📤 Compartir ${res.length === 1 ? "esta receta" : "estas recetas"}</button>` : ""}
-  </div>`;
+  </div>
+  ${F.trucos || F.favs ? `<div class="d-flex flex-wrap gap-2 mb-3">
+    ${F.trucos ? `<button class="btn btn-sm cb-btn-fam" type="button" data-quita="tru" title="Quitar este filtro">🔪 Solo trucos ✕</button>` : ""}
+    ${F.favs ? `<button class="btn btn-sm cb-btn-fam" type="button" data-quita="favs" title="Quitar este filtro">★ Solo favoritas ✕</button>` : ""}
+  </div>` : ""}`;
   let cuerpo;
   if (res.length === 0) cuerpo = `<div class="alert alert-light border">Ninguna receta cumple todos los criterios. Prueba a quitar algún filtro.</div>`;
   else if (!palabras(F.texto).size) cuerpo = rejilla(res);
@@ -390,6 +394,12 @@ function refresca() {
       (resto.length ? `<h2 class="cb-results-title">“${esc(F.texto)}” en los ingredientes <span>(${resto.length})</span></h2>${rejilla(resto)}` : "");
   }
   document.getElementById("res").innerHTML = cabecera + cuerpo;
+  document.querySelectorAll("#res [data-quita]").forEach(b => b.addEventListener("click", () => {
+    const id = b.dataset.quita;
+    document.getElementById(id).checked = false;
+    if (id === "tru") F.trucos = false; else F.favs = false;
+    refresca();
+  }));
   pintaBotones(document.getElementById("res"));
 }
 
