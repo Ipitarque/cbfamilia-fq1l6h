@@ -35,3 +35,14 @@
 
 /* Al imprimir, sin cabecera ni botones */
 @media print { .cb-header, .cb-atras, .no-print { display: none !important; } }
+
+/* Menos aire entre título, subtítulo, etiquetas e ingredientes (15-nov-2026) */
+.cb-recipe h1 { margin-bottom: .1rem; line-height: 1.15; }
+.cb-recipe .cb-subtitulo { font-size: 1.05rem; line-height: 1.35; margin-bottom: .6rem; }
+.cb-recipe .cb-etiquetas { margin-bottom: .5rem !important; }
+.cb-recipe .cb-servings { margin: .4rem 0 0; }
+.cb-recipe #explica { margin: .3rem 0 .6rem; line-height: 1.35; }
+.cb-recipe h2.h4 { margin-bottom: .3rem; }
+.cb-recipe .cb-photo { margin: .25rem 0 .6rem; }
+.cb-card h2 { line-height: 1.2; }
+.cb-card .cb-subtitulo { margin-bottom: .4rem !important; line-height: 1.3; }

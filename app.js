@@ -391,7 +391,7 @@ function tarjeta(r) {
   return `<div class="col"><div class="cb-card position-relative">
     ${r.foto && !r.truco ? `<img class="cb-card-photo" src="fotos/${enc(r.foto)}" alt="${esc(r.t)}" loading="lazy">` : ""}
     <h2 class="h5 mb-1"><a class="stretched-link cb-card-link" href="#/receta/${enc(r.id)}">${esc(r.t)}</a></h2>
-    ${r.st ? `<p class="text-muted small mb-2">${esc(r.st)}</p>` : ""}
+    ${r.st ? `<p class="text-muted small cb-subtitulo">${esc(r.st)}</p>` : ""}
     <div class="d-flex flex-wrap gap-1">
       ${b(r.tp, "cb-badge-main")}${b(r.co ? (r.sco || r.co) : "")}${b(r.ca)}${b(r.dif)}
       ${r.min ? `<span class="badge cb-badge">⏱ ${r.min} min</span>` : ""}
@@ -419,14 +419,12 @@ function vistaReceta(id) {
 
   app.innerHTML = `<article class="cb-recipe">
     <div class="d-flex justify-content-between align-items-start gap-3">
-      <div>
-        <h1 class="mb-1">${esc(r.t)}</h1>
-        ${r.st ? `<p class="lead text-muted">${esc(r.st)}</p>` : ""}
-      </div>
+      <h1 class="mb-1">${esc(r.t)}</h1>
       <div class="d-flex gap-2 no-print"><button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" onclick="print()">🖨 Imprimir</button></div>
     </div>
+    ${r.st ? `<p class="text-muted cb-subtitulo">${esc(r.st)}</p>` : ""}
     ${r.foto && !r.truco ? `<img class="cb-photo" src="fotos/${enc(r.foto)}" alt="${esc(r.t)}">` : ""}
-    <div class="d-flex flex-wrap gap-1 mb-3">
+    <div class="d-flex flex-wrap gap-1 mb-3 cb-etiquetas">
       ${r.truco ? `<span class="badge cb-badge-main">🔪 Truco</span>` : ""}
       ${r.tp ? b(par(r.tp, r.stp), true) : ""}${r.ca ? b(par(r.ca, r.sca)) : ""}${r.co ? b(par(r.co, r.sco)) : ""}
       ${b(r.or)}${b(r.dif)}${r.min ? `<span class="badge cb-badge">⏱ ${r.min} min</span>` : ""}
@@ -460,13 +458,13 @@ function vistaReceta(id) {
   const cantidades = racs => {
     const factor = r.rac.base > 0 ? racs / r.rac.base : 1;
     const ing = document.getElementById("ing");
-    if (ing) ing.innerHTML = r.ing.map(g => `${g.t ? `<h3 class="h6 mt-3">${esc(g.t)}</h3>` : ""}<ul class="cb-ingredients">${g.l.map(l =>
+    if (ing) ing.innerHTML = r.ing.map(g => `${g.t ? `<h3 class="h6 mt-2 mb-1">${esc(g.t)}</h3>` : ""}<ul class="cb-ingredients">${g.l.map(l =>
       `<li>${esc(lineaIngrediente(l, factor))}${l.prop ? ` <span class="badge cb-badge-warn" title="Cantidad propuesta: no venía en el original">propuesto</span>` : ""}
        ${l.nota ? `<div class="cb-ing-note">${esc(l.nota)}</div>` : ""}</li>`).join("")}</ul>`).join("");
     document.getElementById("pas").innerHTML = pasos(r, factor);
     const ex = document.getElementById("explica");
     if (ex) ex.innerHTML = `Cantidades calculadas para <strong>${racs} ${esc(r.rac.u)}</strong> a partir de la receta original
-      (${esc(r.rac.txt || cantidad(r.rac.base) + " " + r.rac.u)}).${!r.rac.norm && r.rac.mot ? " " + esc(r.rac.mot) : ""}`;
+      ${(t => t.startsWith("(") ? esc(t) : "(" + esc(t) + ")")(r.rac.txt || cantidad(r.rac.base) + " " + r.rac.u)}.${!r.rac.norm && r.rac.mot ? " " + esc(r.rac.mot) : ""}`;
     const v = document.getElementById("volver");
     if (v) v.hidden = racs === r.rac.def;
   };
