@@ -77,7 +77,8 @@ function vistaMenu() {
   const cab = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <h1 class="h3 mb-0">🗓 Menú de la semana</h1>
     <a class="btn btn-outline-primary btn-sm" href="#/proponer">✨ Proponer un menú</a>
-    ${menu.length ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="menu">📤 Compartir el menú</button>` : ""}
+    ${menu.length ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="menu">📤 Compartir el menú</button>
+      ${botonPdf("menu", "📄 PDF del menú completo")}` : ""}
     ${menu.length ? `<span id="vaciar"><button class="btn btn-outline-secondary btn-sm" type="button" data-accion="pregunta">Vaciar el menú</button></span>` : ""}
   </div>`;
   if (!menu.length) {
@@ -246,6 +247,7 @@ function textoCompra(secs, hecho) {
 function vistaCompra(compartido) {
   document.title = "Lista de la compra · El CookBook de la familia";
   const menu = compartido ? compartido.menu : recetasDelMenu().map(r => ({ r, personas: G.menu[r.id] }));
+  ultimaCompra = compartido ? menu : null;
   const volver = compartido ? `<a class="btn btn-outline-secondary btn-sm" href="${compartido.volver}">← Volver al menú compartido</a>`
     : `<a class="btn btn-outline-secondary btn-sm" href="#/menu">← Volver al menú</a>`;
   const cab = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 cb-noprint">
@@ -253,6 +255,7 @@ function vistaCompra(compartido) {
     <div class="d-flex flex-wrap gap-2">
       ${volver}
       ${menu.length && !compartido ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="compra">📤 Compartir</button>` : ""}
+      ${menu.length ? botonPdf("compra") : ""}
       ${menu.length ? `<button class="btn btn-outline-secondary btn-sm" type="button" id="copiar">📋 Copiar</button>
       <button class="btn btn-primary btn-sm cb-imprimir" type="button" onclick="imprimir()">🖨 Imprimir</button>` : ""}
     </div></div>
@@ -719,6 +722,7 @@ function vistaProponer() {
         <label class="form-check mb-0"><input type="checkbox" class="form-check-input" id="p-vaciar" ${f.vaciar ? "checked" : ""}> Vaciar antes el menú semanal</label>
         <button class="btn btn-success" type="button" id="p-anadir">🗓 Añadir al menú semanal (${q.comensales} pers.)</button>
         <button class="btn btn-outline-secondary" type="button" data-compartir="propuesta">📤 Compartir esta propuesta</button>
+        <button class="btn btn-outline-secondary" type="button" data-pdf="propuesta">📄 PDF de la propuesta</button>
         <span class="text-success" id="p-ok" ${anadido ? "" : "hidden"}>✓ Añadido. <a href="#/menu">Ver el menú y la lista de la compra</a></span>
       </div>
       <div class="small text-muted mt-1">Cada receta se añade para ${q.comensales} personas. Si un plato sale dos veces, se suma una sola vez con esas personas.

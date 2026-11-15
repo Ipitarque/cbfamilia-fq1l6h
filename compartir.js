@@ -168,7 +168,9 @@ function vistaCompartido(q) {
     const lista = codigos.map(porCodigo).filter(Boolean);
     const titulo = q.get("t") || "Recetas";
     document.title = titulo + " · El CookBook de la familia";
+    ultimoCompartido = { lista, titulo };
     app.innerHTML = cab(titulo, `${lista.length} ${lista.length === 1 ? "receta" : "recetas"}`) + aviso(codigos.length - lista.length) +
+      (lista.length ? `<div class="mb-3">${botonPdf("comp-grupo", "📄 PDF de estas recetas")}</div>` : "") +
       (lista.length ? rejilla(lista) : `<div class="cb-empty">No hay recetas que mostrar.</div>`);
     pintaBotones(app);
     return;
@@ -192,6 +194,7 @@ function vistaCompartido(q) {
     return;
   }
   document.title = (plan ? "Propuesta de menú" : "Menú compartido") + " · El CookBook de la familia";
+  ultimoCompartido = { menu, plan };
   const hashCompra = mismo + (mismo.includes("?") ? "&" : "?") + "ver=compra";
   let cuerpo = "";
   if (plan) {
@@ -233,6 +236,7 @@ function vistaCompartido(q) {
         <a class="btn btn-primary" href="${esc(hashCompra)}">🛒 Ver su lista de la compra</a>
         <button class="btn btn-success" type="button" id="c-anadir">🗓 Añadir a mi menú semanal</button>
         ${plan ? `<button class="btn cb-btn-fam" type="button" id="c-proponer">✨ Abrir en Proponer un menú</button>` : ""}
+        <button class="btn btn-outline-secondary" type="button" data-pdf="comp-menu">📄 PDF del menú completo</button>
       </div>
       <label class="form-check mt-2 mb-0"><input type="checkbox" class="form-check-input" id="c-vaciar"> Vaciar antes mi menú semanal</label>
       <div class="text-success mt-2" id="c-ok" hidden>✓ Añadido a tu menú. <a href="#/menu">Ver mi menú</a></div>

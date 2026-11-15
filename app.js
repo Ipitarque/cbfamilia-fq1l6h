@@ -379,7 +379,8 @@ function refresca() {
   const total = D.recetas.length;
   const cabecera = `<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <h1 class="h3 mb-0">${res.length} ${res.length === 1 ? "receta" : "recetas"}${res.length !== total ? ` <span class="text-muted fs-6">de ${total}</span>` : ""}</h1>
-    ${res.length && res.length !== total ? `<button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="grupo">📤 Compartir ${res.length === 1 ? "esta receta" : "estas recetas"}</button>` : ""}
+    ${res.length && res.length !== total ? `<div class="d-flex flex-wrap gap-2"><button class="btn btn-outline-secondary btn-sm" type="button" data-compartir="grupo">📤 Compartir ${res.length === 1 ? "esta receta" : "estas recetas"}</button>
+      ${botonPdf("grupo")}</div>` : ""}
   </div>
   ${F.trucos || F.favs ? `<div class="d-flex flex-wrap gap-2 mb-3">
     ${F.trucos ? `<button class="btn btn-sm cb-btn-fam" type="button" data-quita="tru" title="Quitar este filtro">🔪 Solo trucos ✕</button>` : ""}
@@ -457,6 +458,7 @@ function vistaReceta(id, pedidas) {
         ${sinIngredientes ? "" : botonMenu(r, false)}
         ${botonFav(r, false)}
         <button class="btn btn-outline-secondary btn-sm text-nowrap" type="button" data-compartir="receta" data-id="${esc(r.id)}">📤 Compartir</button>
+        ${botonPdf("receta", "📄 PDF", `data-id="${esc(r.id)}"`)}
         <button class="btn btn-outline-secondary btn-sm text-nowrap cb-imprimir" type="button" onclick="imprimir()">🖨 Imprimir</button>
       </div>
     </div>
