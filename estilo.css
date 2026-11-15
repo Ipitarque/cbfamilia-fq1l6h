@@ -46,3 +46,19 @@
 .cb-recipe .cb-photo { margin: .25rem 0 .6rem; }
 .cb-card h2 { line-height: 1.2; }
 .cb-card .cb-subtitulo { margin-bottom: .4rem !important; line-height: 1.3; }
+
+/* Botones de la portada que se ven igual de día y de noche (modo oscuro del iPhone) */
+.cb-btn-fam { border: 1px solid var(--cb-accent); color: var(--cb-accent); background: var(--cb-card); }
+.cb-btn-fam:hover, .cb-btn-fam:active { background: var(--cb-accent-soft); color: var(--cb-accent); border-color: var(--cb-accent); }
+
+/* Modo oscuro (el iPhone lo pone solo de noche): los textos grises y los botones
+   grises de Bootstrap casi no se veían sobre el fondo oscuro */
+@media (prefers-color-scheme: dark) {
+  .text-muted, .cb-recipe .cb-subtitulo, .cb-ing-note, .form-text { color: #bfb2a4 !important; }
+  .btn-outline-secondary { color: #d8ccbf; border-color: #8a7c6e; }
+  .btn-outline-secondary:hover { background: var(--cb-accent-soft); color: var(--cb-ink); }
+  .form-control, .form-check-input { background-color: #2f2720; color: var(--cb-ink); border-color: #5a4d41; }
+  .form-control::placeholder { color: #a39585; }
+  .form-check-input:checked { background-color: var(--cb-accent); border-color: var(--cb-accent); }
+  .alert-light { background: var(--cb-card); color: var(--cb-ink); border-color: var(--cb-line) !important; }
+}

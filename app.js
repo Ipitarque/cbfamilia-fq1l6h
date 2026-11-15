@@ -179,8 +179,8 @@ function vistaPortada() {
     </div>
     <div class="cb-home-actions cb-home-fam mt-4">
       <a class="btn btn-primary" href="#/recetas">📖 Ver todas las recetas (${n})</a>
-      <a class="btn btn-outline-dark" href="#/recetas?tecnicas=1">🔪 Trucos (${trucos})</a>
-      <a class="btn btn-outline-secondary" href="#/recetas?buscar=1">🔍 Buscar</a>
+      <a class="btn cb-btn-fam" href="#/recetas?tecnicas=1">🔪 Trucos (${trucos})</a>
+      <a class="btn cb-btn-fam" href="#/recetas?buscar=1">🔍 Buscar</a>
     </div>
     <p class="cb-pie-fam">Recetas actualizadas el ${fecha(D.generado)}.</p>`;
 }
