@@ -310,7 +310,7 @@ document.addEventListener("click", e => {
     const lista = tipo === "grupo" ? resultados() : ultimoCompartido.lista;
     if (lista.length > MAX_GRUPO) { ventanaAviso(`Son ${lista.length} recetas: demasiadas para un PDF (como mucho ${MAX_GRUPO}). Usa la búsqueda o los filtros para quedarte con menos.`); return; }
     const titulo = tipo === "grupo" ? describeFiltro() : ultimoCompartido.titulo;
-    nombre = `Recetas - ${titulo}`; trabajo = () => pdfGrupo(titulo, lista);
+    nombre = /^recetas\b/i.test(titulo) ? titulo : `Recetas - ${titulo}`; trabajo = () => pdfGrupo(titulo, lista);
   } else if (tipo === "menu") {
     nombre = "Menú de la semana"; trabajo = () => pdfMenu("Menú de la semana", menuPropio(), null);
   } else if (tipo === "propuesta") {

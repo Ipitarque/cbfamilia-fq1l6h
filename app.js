@@ -158,6 +158,9 @@ function pinta() {
   else { marcarNav("inicio"); vistaPortada(); }
   principal.scrollTop = 0;
   window.scrollTo(0, 0);
+  // Desde el CookBook de casa se abre con «&pdf=…» para sacar el PDF directamente
+  const auto = { "1": "receta", receta: "receta", grupo: "comp-grupo", menu: "comp-menu", compra: "compra" }[q.get("pdf")];
+  if (auto) setTimeout(() => { const b = document.querySelector(`[data-pdf="${auto}"]`); if (b) b.click(); }, 80);
 }
 
 // ------------------------------------------------------------------ portada
